@@ -106,6 +106,7 @@ class Marker {
     this.icon,
     this.infoWindow = InfoWindow.noText,
     this.position = const LatLng(0.0, 0.0),
+    this.anchor,
     this.onTap,
     this.visible = true,
     this.onDragEnd,
@@ -138,6 +139,14 @@ class Marker {
   /// Geographical location of the marker.
   final LatLng position;
 
+  /// The icon image point that will be the anchor of the info window when
+  /// displayed.
+  ///
+  /// The image point is specified in normalized coordinates: An anchor of
+  /// (0.0, 0.0) means the top left corner of the image. An anchor
+  /// of (1.0, 1.0) means the bottom right corner of the image.
+  final Offset anchor;
+
   /// Callbacks to receive tap events for markers placed on this map.
   final VoidCallback onTap;
 
@@ -149,6 +158,7 @@ class Marker {
   appleMaps.Annotation get appleMapsAnnotation => appleMaps.Annotation(
         annotationId: this.markerId.appleMapsAnnoationId,
         alpha: this.alpha,
+        anchor: this.anchor ?? Offset(0.5, 1.0),
         draggable: this.draggable,
         infoWindow: this.infoWindow.appleMapsInfoWindow,
         onTap: this.onTap,
@@ -165,6 +175,7 @@ class Marker {
   googleMaps.Marker get googleMapsMarker => googleMaps.Marker(
         markerId: this.markerId.googleMapsMarkerId,
         alpha: this.alpha,
+        anchor: this.anchor ?? Offset(0.5, 1.0),
         draggable: this.draggable,
         infoWindow: this.infoWindow.googleMapsInfoWindow,
         onTap: this.onTap,
@@ -182,7 +193,7 @@ class Marker {
       appleMaps.Annotation(
         annotationId: marker.markerId.appleMapsAnnoationId,
         alpha: marker.alpha,
-        anchor: Offset(0.5, 1.0),
+        anchor: marker.anchor ?? Offset(0.5, 1.0),
         draggable: marker.draggable,
         infoWindow: marker.infoWindow.appleMapsInfoWindow,
         onTap: marker.onTap,
@@ -200,7 +211,7 @@ class Marker {
       googleMaps.Marker(
         markerId: marker.markerId.googleMapsMarkerId,
         alpha: marker.alpha,
-        anchor: Offset(0.5, 1.0),
+        anchor: marker.anchor ?? Offset(0.5, 1.0),
         draggable: marker.draggable,
         infoWindow: marker.infoWindow.googleMapsInfoWindow,
         onTap: marker.onTap,
